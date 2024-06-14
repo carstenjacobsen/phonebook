@@ -35,6 +35,40 @@ use soroban_sdk::{contract, contractimpl, contracttype, vec, Env, Vec, String};
 No further configuration or imports are needed for the phonebook smart contract.
 
 ### Define Structs
+The phonebook smart contract has two functions - to create a contact and to list the contacts. In this simple project only the contact's first name, last name and phone number is stored, so the `Contact` struct is very simple, and looks like this:
+
+```rust
+#[derive(Clone)]
+#[contracttype]
+pub struct Contact {
+    pub phone_number: u32,
+    pub first_name: String,
+    pub last_name: String,
+}
+```
+
+A second struct for listing the contacts in the phonebook, `Contacts`, is also added:
+
+```rust
+#[derive(Clone)]
+#[contracttype]
+pub struct Contacts {
+    pub contacts: Vec<Contact>,
+}
+```
+
+Finally the two structs are enumerated as `DataKey`.
+
+```rust
+#[derive(Clone)]
+#[contracttype]
+pub enum DataKey {
+    Contact,
+    Contacts,
+}
+```
+
+
 
 
 
