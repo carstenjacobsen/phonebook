@@ -173,6 +173,64 @@ cargo rustc --manifest-path=contracts/phonebook/Cargo.toml --crate-type=cdylib -
 ```
 
 ### Deploy
+Deployment to testnet or mainnet requires an identity to be setup for signing transactions. If you don't already have a Soroban identity, a new identity can be setup with the Soroban CLI:
+
+```bash
+% soroban keys generate --global myname --network testnet
+```
+
+See the public key with this command:
+
+```bash
+% soroban keys address myname
+
+GAP2QMTJOYNAMSTKNLNCAJ3PSAAYYXLLDR6QXUYQJMYO7UOUBZV3LYDL
+```
+
+With the compiled WASM-file, and the identity, the smart contract can now be deployed. The smart contract can be deployed to the testnet with the Soroban CLI. The deployment will return the smart contract ID.
+
+```bash
+% soroban contract deploy \   
+  --wasm target/wasm32-unknown-unknown/release/phonebook.wasm \
+  --source myname \
+  --network testnet
+
+CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX  
+```
+
+## Usage
+The two public smart contract functions `create` and `list` can be tested by invoking them with Soroban CLI commands now the smart contract has been deployed to the testnet.
+
+### Create Contact
+First the `create` function is used to add a couple of contacts to the phonebook. Just change the phone number, first name and last name every time the function is invoked.
+
+```bash
+% soroban contract invoke \   
+  --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
+  --source carsten \
+  --network testnet \
+  -- \
+  create \   
+  --phone_number 1231231234 \
+  --first_name Bob \
+  --last_name Smith
+```
+
+### List Contacts
+The `list` function will return the contacts created in the previous step. 
+
+```bash
+% soroban contract invoke \
+  --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
+  --source carsten \
+  --network testnet \
+  -- \
+  list 
+
+{"contacts":[{"first_name":"Bob","last_name":"Smith","phone_number":1231231234},{"first_name":"Alice","last_name":"Johnson","phone_number":3213214321}]}
+```
+
+
 
 
 
