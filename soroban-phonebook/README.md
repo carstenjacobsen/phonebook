@@ -68,6 +68,21 @@ pub enum DataKey {
 }
 ```
 
+### Define Contract
+The smart contract is defined by the `#[contract]` attribute, and an implementation of smart contract functions can be associated with this contract. The implemented functions can be invoked from a frontend, from another smart contract or commandline by making them public. For the phonebook smart contract there are two public functions - `create` and `list`.
+
+```rust
+#[contract]
+pub struct PhoneBookContract;
+
+#[contractimpl]
+impl PhoneBookContract {
+    // pub fn create
+
+    // pub fn list
+}
+```
+
 
 
 
