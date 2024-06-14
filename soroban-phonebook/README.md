@@ -25,7 +25,7 @@ soroban-sdk = { workspace = true }
 soroban-sdk = { workspace = true, features = ["testutils"] }
 ```
 
-The Soroban SDK is used in the code with the following macros and structs:
+The Soroban SDK is used in the code with the following macros and types:
 
 ```rust
 #![no_std]
