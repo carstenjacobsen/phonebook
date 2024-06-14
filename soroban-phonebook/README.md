@@ -158,18 +158,21 @@ impl PhoneBookContract {
 }
 ```
 
-
-
-
-
-
-
-
-
-
-
-
 ## Build & Deploy
+The Rust code is not directly executable on-chain, it has to be compiled into WebAssembly binary code first. The binary code can be deployed on the blockchain and then invoked. 
+
+### Build
+The Rust code is compiled with the Soroban CLI `build` command. The output of the build command is a WASM-file, whch is stored in the `target` directory.
+
+```bash
+% soroban contract build
+
+cargo rustc --manifest-path=contracts/phonebook/Cargo.toml --crate-type=cdylib --target=wasm32-unknown-unknown --release
+   Compiling phonebook v0.0.0 (/Users/carstenjacobsen/Documents/Stellar Soroban/soroban-phonebook/contracts/phonebook)
+    Finished release [optimized] target(s) in 1.66s
+```
+
+### Deploy
 
 
 
