@@ -83,9 +83,41 @@ impl PhoneBookContract {
 }
 ```
 
-### `create` function
+The two public functions are calling the private functions `create_contact` and `list_contact`, which are doing the actual work of storing and retrieving the contact data.
 
-sdf
+### Function `create_contact`
+The `create_contact` function takes two arguments, the **env** argument is giving the function access to the environment features like storing and retrieving data, and **contact** argument takes data in the `Contact` format. 
+
+```rust
+fn create_contact(env: &Env, contact: &Contact) {
+    if env.storage().instance().has(&DataKey::Contacts) {
+        let current_contacts: Contacts = env.storage().instance().get(&DataKey::Contacts).unwrap();
+        let mut contacts_vec: Vec<Contact> = current_contacts.contacts;
+        
+        contacts_vec.push_back(contact.clone());
+
+        let contacts = Contacts {
+            contacts: contacts_vec.clone(),
+        };
+
+        env.storage().instance().set(&DataKey::Contacts, &contacts);
+    } else {
+        let contacts = Contacts {
+            contacts: vec![&env, contact.clone()],
+        };
+
+        env.storage().instance().set(&DataKey::Contacts, &contacts);
+    }    
+}
+```
+
+The function first checks if there's already contacts stored, and append the new contact to the vector, if that's the case. If no contacts are stored, the new contact is stored as the first contact.
+
+### Function `list_contact`
+
+
+
+
 
 
 
