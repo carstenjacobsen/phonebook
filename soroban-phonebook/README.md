@@ -207,7 +207,7 @@ First the `create` function is used to add a couple of contacts to the phonebook
 ```bash
 % soroban contract invoke \   
   --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
-  --source carsten \
+  --source myname \
   --network testnet \
   -- \
   create \   
@@ -222,7 +222,7 @@ The `list` function will return the contacts created in the previous step.
 ```bash
 % soroban contract invoke \
   --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
-  --source carsten \
+  --source myname \
   --network testnet \
   -- \
   list 
