@@ -83,7 +83,7 @@ impl PhoneBookContract {
 }
 ```
 
-The two public functions are calling the private functions `create_contact` and `list_contact`, which are doing the actual work of storing and retrieving the contact data.
+The two public functions are calling the private functions `create_contact` and `list_contacts`, which are doing the actual work of storing and retrieving the contact data.
 
 ### Function `create_contact`
 The `create_contact` function takes two arguments, the **env** argument is giving the function access to the environment features like storing and retrieving data, and **contact** argument takes data in the `Contact` format. 
@@ -113,8 +113,108 @@ fn create_contact(env: &Env, contact: &Contact) {
 
 The function first checks if there's already contacts stored, and append the new contact to the vector, if that's the case. If no contacts are stored, the new contact is stored as the first contact.
 
-### Function `list_contact`
+### Function `list_contacts`
+The `list_contacts` function only takes one argument - the Soroban environment. The function returns a vector of `Contact` elements. 
 
+```rust
+fn list_contacts(env: &Env) -> Contacts {
+    if env.storage().instance().has(&DataKey::Contacts) {
+        env.storage().instance().get(&DataKey::Contacts).unwrap()
+    } else {
+        Contacts {
+            contacts: vec![&env],
+        }
+    }
+}
+```
+
+If `get()` is called and there's no contacts stored, the code will panic. So in order to avoid a panic, the function will first check if there are contacts stored before trying to get contacts. If the there's no contacts stored, and empty vector is returned.
+
+### Complete Code
+The only task left is to implement calls to the two functions in the public smart contract main code.
+
+```rust
+#![no_std]
+use soroban_sdk::{contract, contractimpl, contracttype, vec, Env, Vec, String};
+
+#[derive(Clone)]
+#[contracttype]
+pub enum DataKey {
+    Contact,
+    Contacts,
+}
+
+#[derive(Clone)]
+#[contracttype]
+pub struct Contact {
+    pub phone_number: u32,
+    pub first_name: String,
+    pub last_name: String,
+}
+
+#[derive(Clone)]
+#[contracttype]
+pub struct Contacts {
+    pub contacts: Vec<Contact>,
+}
+
+#[contract]
+pub struct PhoneBookContract;
+
+#[contractimpl]
+impl PhoneBookContract {
+    pub fn create(
+        env: Env,
+        phone_number: u32,
+        first_name: String,
+        last_name: String,
+    ) {
+        create_contact(
+            &env,
+            &Contact {
+                phone_number,
+                first_name,
+                last_name,
+            },
+        )
+    }
+
+    pub fn list(env: Env) -> Contacts {
+        list_contacts(&env)
+    }
+}
+
+fn create_contact(env: &Env, contact: &Contact) {
+    if env.storage().instance().has(&DataKey::Contacts) {
+        let current_contacts: Contacts = env.storage().instance().get(&DataKey::Contacts).unwrap();
+        let mut contacts_vec: Vec<Contact> = current_contacts.contacts;
+        
+        contacts_vec.push_back(contact.clone());
+
+        let contacts = Contacts {
+            contacts: contacts_vec.clone(),
+        };
+
+        env.storage().instance().set(&DataKey::Contacts, &contacts);
+    } else {
+        let contacts = Contacts {
+            contacts: vec![&env, contact.clone()],
+        };
+
+        env.storage().instance().set(&DataKey::Contacts, &contacts);
+    }    
+}
+
+fn list_contacts(env: &Env) -> Contacts {
+    if env.storage().instance().has(&DataKey::Contacts) {
+        env.storage().instance().get(&DataKey::Contacts).unwrap()
+    } else {
+        Contacts {
+            contacts: vec![&env],
+        }
+    }
+}
+```
 
 
 
