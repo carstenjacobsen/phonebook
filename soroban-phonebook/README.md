@@ -1,21 +1,64 @@
-# Soroban Project
+# Soroban Phonebook
 
-## Project Structure
+This phonebook sample code shows how to build a smart contract to store a simple data structure, and how to retrieve the data from the smart contract, using Stellar Soroban. The smart contract will allow you to store a contact with first name, last name and phone number. It also allows you to list all contacts.
 
-This repository uses the recommended structure for a Soroban project:
-```text
-.
-├── contracts
-│   └── hello_world
-│       ├── src
-│       │   ├── lib.rs
-│       │   └── test.rs
-│       └── Cargo.toml
-├── Cargo.toml
-└── README.md
+## Prerequisites
+Soroban smart contracts are written in Rust, so in order to run this code, a Rust toolchain must be installed. To follow the steps of building this project on your own system, these are the prerequisites:
+
+- A Rust toolchain
+- A code editor supporting Rust
+- The Soroban CLI
+
+The [Soroban documentation](https://developers.stellar.org/docs/smart-contracts/getting-started/setup) has a step-by-step guide to setting up your system developing and deploying Soroban smart contracts.
+
+## Code
+The smart contract has two public functions, one for creating a contact in the phonebook, and one for listing the contacts in the phonebook. 
+
+### Configurations
+The code is based on the default project created with the `soroban contract init <project name>` command. The **Cargo.toml** file only has one dependency by default, and that's all that is needed for this project as well.
+
+```rust
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
 ```
 
-- New Soroban contracts can be put in `contracts`, each in their own directory. There is already a `hello_world` contract in there to get you started.
-- If you initialized this project with any other example contracts via `--with-example`, those contracts will be in the `contracts` directory as well.
-- Contracts should have their own `Cargo.toml` files that rely on the top-level `Cargo.toml` workspace for their dependencies.
-- Frontend libraries can be added to the top-level directory as well. If you initialized this project with a frontend template via `--frontend-template` you will have those files already included.
+The Soroban SDK is used in the code with the following macros and structs:
+
+```rust
+#![no_std]
+use soroban_sdk::{contract, contractimpl, contracttype, vec, Env, Vec, String};
+```
+
+No further configuration or imports are needed for the phonebook smart contract.
+
+### Define Structs
+
+
+
+
+
+
+
+
+
+## Build & Deploy
+
+
+
+
+## Usage
+
+
+
+
+
+
+
+
+
+
+
+
