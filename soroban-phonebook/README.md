@@ -134,8 +134,6 @@ If `get()` is called and there's no contacts stored, the code will panic. So in 
 The only task left is to implement calls to the two functions in the public smart contract main code.
 
 ```rust
-...
-
 #[contractimpl]
 impl PhoneBookContract {
     pub fn create(
@@ -158,8 +156,6 @@ impl PhoneBookContract {
         list_contacts(&env)
     }
 }
-
-...
 ```
 
 
