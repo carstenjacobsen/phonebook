@@ -159,10 +159,7 @@ impl PhoneBookContract {
 ```
 
 ## Build & Deploy
-The Rust code is not directly executable on-chain, it has to be compiled into WebAssembly binary code first. The binary code can be deployed on the blockchain and then invoked. 
-
-### Build
-The Rust code is compiled with the Soroban CLI `build` command. The output of the build command is a WASM-file, whch is stored in the `target` directory.
+The Rust code is not directly executable on-chain, it has to be compiled into WebAssembly binary code first. The binary code can be deployed on the blockchain and then invoked. The Rust code is compiled with the Soroban CLI `build` command. The output of the build command is a WASM-file, whch is stored in the `target` directory.
 
 ```bash
 % soroban contract build
@@ -207,7 +204,7 @@ First the `create` function is used to add a couple of contacts to the phonebook
 ```bash
 % soroban contract invoke \   
   --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
-  --source myname \
+  --source carsten \
   --network testnet \
   -- \
   create \   
@@ -222,7 +219,7 @@ The `list` function will return the contacts created in the previous step.
 ```bash
 % soroban contract invoke \
   --id CA5O7GWG6DOIKLK72YX6JEYW63M3EYSCUSKJUZMGPTGJU23R6BXXXXXX \
-  --source myname \
+  --source carsten \
   --network testnet \
   -- \
   list 
@@ -230,21 +227,9 @@ The `list` function will return the contacts created in the previous step.
 {"contacts":[{"first_name":"Bob","last_name":"Smith","phone_number":1231231234},{"first_name":"Alice","last_name":"Johnson","phone_number":3213214321}]}
 ```
 
+## More information
 
-
-
-
-
-## Usage
-
-
-
-
-
-
-
-
-
-
-
+- [Soroban Documentation](https://developers.stellar.org/docs/smart-contracts)
+- [Soroban Examples (GitHub)](https://github.com/stellar/soroban-examples)
+- [Stellar Website](https://stellar.org)
 
